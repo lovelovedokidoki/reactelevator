@@ -6,6 +6,8 @@ export default class ElevatorInterface extends Component {
   constructor(props) {
     super(props);
 
+    /// We want the state to monitor the names of the floors and whether they're enqueued. That way, 
+    /// buttons know when to light up and not as the elevator iterates through the "queue".
     this.state = { 
       floors: props.floors.map(
         x => {
@@ -21,6 +23,7 @@ export default class ElevatorInterface extends Component {
     this.direction = 'none';
   }
 
+  /// Responsible for iterating through the floors until no more floors are enqueued
   _iterate() {
     if (this.direction != 'none' && this.Elevator.doorsopen) {
       this.Elevator.closedoors().then(_floornumber => {

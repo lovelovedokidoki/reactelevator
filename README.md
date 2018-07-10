@@ -14,8 +14,12 @@ Usually with these kinds of projects I have actual hardware to program against, 
 
 ### ElevatorInterface.js
 
-To do that, I implement a React component called ‘ElevatorInterface’. First I make a skeleton for it, then build a testsuite with tests that necessitate the wanted behaviour. Now, testing in React proved to be a bit difficult. (I have some experience with React, but not many years.)
+To do that, I implement a React component called ‘ElevatorInterface’. First I make a skeleton for it, then build a testsuite with tests that necessitate the wanted behaviour. 
+
+Testing in React proved to be a bit more difficult than I expected.
 There’s a few kinks such that rendering is not done the same way and therefore especially setState can act differently in testing than in browser rendering. Because setState will not activate a callback function correctly under testing, I had no way to prevent a race condition that occurs when using state to contain knowledge about which floors have been enqueued by the user. In a production version of such a project as this that would be a no-go, but I’ll let it be since it’s just an exercise. Grill me about it if you would like to. :-)
+
+Testing functions of interest are in src/ElevatorInterface.test.js. Hopefully the tests are self-explanatory.
 
 The ElevatorInterface class requires 2 things for usage: 
 * 1. It accepts a prop “arrivedAtFloorEventHandler” that it expects to be a method with signature (x : number) => void. That will be called every time the elevator arrives at a floor requested by a user.
@@ -23,6 +27,14 @@ The ElevatorInterface class requires 2 things for usage:
 * Optional 3. The class accepts a “speed” prop containing a number that will be used by the undelying Elevator class to determine how long it waits before resolving promises. This is used in the testsuite to avoid tests taking decaseconds to complete.
 
 I didn’t put in the extra time to make the app really shiny and pretty, and it only shows the last visited floor number. If you run it, check out the console for hints as to how the elevator moves. I made it verbose.
+
+There is SASS included in the project, and the necessary settings to make npm compile and recompile it on runtime, but I haven't used an impressive amount of Sassy features.
+
+## Other notes
+
+The way the elevator works with this code isn't production ready in general. It's brittle and the elevator will brick itself on unexpected rejections from promises. It doesn't catch on all promises as good JS code should, and in general the whole code handling iterating the elevator through floors and checking for arrival on requested floors would be better off living as a background worker of sorts, waiting for inputs and restarting by itself when running into an unexpected state.
+
+It wasn't specified what behaviour the elevator should have when user requests the floor that the elevator is already positioned at. This should also be defined and implemented before making a production ready version.
 
 ## create-react-app
 
