@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ElevatorInterface from './ElevatorInterface';
 import { shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
@@ -29,13 +28,13 @@ it('ElevatorInterface calls arrivedAtFloorEventHandler', done => {
   var handler = (_floornumber) => { 
     done(); 
   };
-  const wrapper = renderer.create(
+  const wrapper = shallow(
     <ElevatorInterface floors={[1, 2, 3]} 
     arrivedAtFloorEventHandler={handler}
     speed={10} />
   );
 
-  wrapper.getInstance().enqueuefloor(2);
+  wrapper.instance().enqueuefloor(2);
 });
 
 it('arrivedAtFloorEventHandler is called with correct number', done => {
