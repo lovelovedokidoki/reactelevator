@@ -4,11 +4,6 @@ export default class Elevator {
         this.doorsopen = true;
         this.busy = false;
         this.speed = speed;
-
-        this.moveup = this.moveup.bind(this);
-        this.movedown = this.movedown.bind(this);
-        this.closedoors = this.closedoors.bind(this);
-        this.opendoors = this.opendoors.bind(this);
     }
 
     moveup() {
